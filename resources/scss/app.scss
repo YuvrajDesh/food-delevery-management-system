@@ -1,4 +1,6 @@
 @import './variables';
+@import '~noty/src/noty.scss';
+@import '~noty/src/themes/mint.scss';
 body {
     font-family: 'Lato', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -32,9 +34,12 @@ section.hero {
         border-color: $pure;
         color: $pure;
     }
+    &:focus {
+        outline: none;
+    }
 }
 btn-primary {
-    background: $primary;
+    // background: $primary;
     transition: $smooth;
     &:hover {
         background: $primary-hover;
@@ -55,7 +60,11 @@ section.login {
         color: $primary;
         &:hover {
             color: $primary-hover;
-            
+
         }
     }
+}
+.noty_theme__mint {
+    border-radius: 50px!important;
+    padding-left: 8px!important;
 }
