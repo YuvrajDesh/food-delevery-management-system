@@ -2,7 +2,7 @@ import axios from 'axios'
 import Noty from 'noty'
 let addToCart = document.querySelectorAll('.add-to-cart')
 let cartCounter = document.querySelector('#cartCounter')
-
+import { initAdmin } from './admin'
 function updateCart(food) {
     axios.post('/update-cart', food).then(res => {
         cartCounter.innerText = res.data.totalQty
@@ -31,3 +31,12 @@ addToCart.forEach((btn) => {
         // console.log(food)
     })
 })
+
+// Remove alert message after X seconds 
+const alertMsg = document.querySelector('#success-alert')
+if(alertMsg) {
+    setTimeout(() => {
+        alertMsg.remove()
+    }, 2000)
+}
+initAdmin()
