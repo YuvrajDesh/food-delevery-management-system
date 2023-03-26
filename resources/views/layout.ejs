@@ -7,17 +7,17 @@
     <title>Ghost Kitchen</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
     <link rel="stylesheet" href="/css/app.css">
 </head>
 
 <body>
-    <nav class="container mx-auto flex items-center justify-between py-4">
+    <nav class="container mx-auto flex items-center justify-between py-4 fixed top-0 z-50" >
         <div>
             <a href="/"><img src="/img/logo.png" height ="60px" width = "80px"alt="logo"></a>
-            <!-- <h1 class=" text-5xl mx-50 my-40">
-                Ghost Kitchen</h1> -->
+            
         </div>
-        <div>
+        <div  >
             <ul class="flex items-center">
                 <li class="ml-6"><a href="/">Menu</a></li>
                 <li class="ml-6"><a href="#">Offers</a></li>
@@ -40,6 +40,8 @@
         </div>
     </nav>
     <%- body %>
+    <footer></footer>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="/js/app.js"></script>
 </body>
 

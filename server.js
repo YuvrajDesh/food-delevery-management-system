@@ -11,25 +11,8 @@ const session = require('express-session')
 const flash = require('express-flash')
 const MongoDBStore = require('connect-mongo')
 const passport = require('passport')
+const Emitter = require('events')
 //Database connection
-// const url = 'mongodb://localhost:27017/food';
-// mongoose.connect(url);
-// const connection = mongoose.connection;
-// connection
-//     .once('open', function () {
-//       console.log('MongoDB running');
-//     })
-//     .on('error', function (err) {
-//       console.log(err);
-//     });
-
-    // connection.once('open', () => {
-    //     console.log('Database connected...');
-    // }).catch(err => {
-    //     console.log('Connection failed...')
-    // });
-
-    // before((done) => {
         mongoose.connect('mongodb://localhost:27017/food');
         const connection = mongoose.connection
         connection
@@ -37,13 +20,16 @@ const passport = require('passport')
         .on('error', (error) => {
           console.warn('Some error', error);
         });
-    //   });
-
+   
     //Session store
     let mongoStore =  MongoDBStore.create({
        mongoUrl: 'mongodb://localhost:27017/food',
         collection: 'sessions'
     })
+
+    // Event emitter 
+     const eventEmitter = new Emitter()
+     app.set('eventEmitter', eventEmitter)
 
     // Session config
     app.use(session({
@@ -79,7 +65,23 @@ app.use(expressLayout)
 app.set('views',p.join(__dirname,'/resources/views'))
 app.set('view engine','ejs')
 require('./routes/web')(app)
-app.listen(PORT,()=>{
-    console.log(`Listening on port  ${PORT}`)
-}
-)
+const server = app.listen(PORT , () => {
+    console.log(`Listening on port ${PORT}`)
+})
+
+// Socket 
+
+const io = require('socket.io')(server)
+io.on('connection', (socket) => {
+
+console.log(socket.id)
+// Join  
+socket.on('join', (orderId) => {
+    console.log(orderId)
+socket.join(orderId)
+})
+})
+
+eventEmitter.on('orderUpdated', (data) => {
+    io.to(`order_${data.id}`).emit('orderUpdated', data)
+})
